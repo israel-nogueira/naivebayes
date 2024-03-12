@@ -2,20 +2,20 @@
     "name": "israel-nogueira/nbclassifier",
     "description": "Esta classe PHP serve como componente central em um sistema de processamento de linguagem natural, especialmente voltado para aplicações de aprendizado de máquina",
     "type": "library",
+    "license": "MIT",
     "require": {
         "israel-nogueira/galaxy-db": "*",
         "israel-nogueira/dotenv": "*"
     },
-    "license": "MIT",
+    "scripts": {
+        "post-autoload-dump": [
+            "php -r \"copy('vendor/israel-nogueira/nbclassifier/.env', '.env');\""
+        ],
+    },
     "autoload": {
         "psr-4": {
             "IsraelNogueira\\Nbclassifier\\": "src/"
         }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "cp .env ../../../../../.env"
-        ]
     },
     "authors": [
         {
