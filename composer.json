@@ -12,6 +12,11 @@
             "IsraelNogueira\\Nbclassifier\\": "src/"
         }
     },
+    "scripts": {
+        "post-install-cmd": [
+            "cp .env ../../../../../.env"
+        ]
+    },
     "authors": [
         {
             "name": "Israel Nogueira",
