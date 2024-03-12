@@ -8,9 +8,8 @@
         "israel-nogueira/dotenv": "*"
     },
     "scripts": {
-        "post-create-project-cmd": [
-            "@php -r \"copy('vendor/israel-nogueira/nbclassifier/.env', 'nbclassifier.env');\""
-        ]
+        "post-install-cmd": [ "copy('vendor/israel-nogueira/nbclassifier/.env', 'nbclassifier.env');" ],
+        "post-update-cmd": [ "copy('vendor/israel-nogueira/nbclassifier/.env', 'nbclassifier.env');" ]
     },
     "autoload": {
         "psr-4": {
