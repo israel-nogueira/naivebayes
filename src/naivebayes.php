@@ -24,9 +24,9 @@
  * @version    1.0.0
  */
 
-	namespace IsraelNogueira\NBClassifier;
+	namespace IsraelNogueira\Nbclassifier;
 	use IsraelNogueira\galaxyDB\galaxyDB;
-	class NBClassifier {
+	class naivebayes {
 
 			/*
 			|-------------------------------------------------
