@@ -28,24 +28,34 @@ Como treinar o seu modelo:
 ```php
 <?php
 
-    include "vendor\autoload.php";
-    use IsraelNogueira\NBClassifier\NBClassifier;
-        
-    $sentimento_1 = "amor";
-    $sentimento_2 = "raiva";
+	include "vendor\autoload.php";
+	use IsraelNogueira\Dotenv\env;
+	use IsraelNogueira\NBClassifier\NBClassifier;
+			   
+	/*
+	|------------------------------------------------
+	|  LÊ AS VARIÁVEIS DE CONEXÃO A BASE
+	|------------------------------------------------
+	*/
 
-    /*
-    |------------------------------------------------
-    |  TREINAMENTO
-    |------------------------------------------------
-    */
-        $_TREINAMENTO = new NBClassifier();
-        $_TREINAMENTO->APRENDE("Seu texto 1",$sentimento_1);
-        $_TREINAMENTO->APRENDE("Seu texto 2",$sentimento_1);
-        $_TREINAMENTO->APRENDE("Seu texto 3",$sentimento_1);
-        $_TREINAMENTO->APRENDE("Seu texto 4",$sentimento_2);
-        $_TREINAMENTO->APRENDE("Seu texto 5",$sentimento_2);
-        $_TREINAMENTO->FINISH();
+		env::install(__DIR__.'/.env');
+
+	/*
+	|------------------------------------------------
+	|  TREINAMENTO
+	|------------------------------------------------
+	*/
+
+		$sentimento_1 = "amor";
+		$sentimento_2 = "raiva";
+
+		$_TREINAMENTO = new NBClassifier();
+		$_TREINAMENTO->APRENDE("Seu texto 1",$sentimento_1);
+		$_TREINAMENTO->APRENDE("Seu texto 2",$sentimento_1);
+		$_TREINAMENTO->APRENDE("Seu texto 3",$sentimento_1);
+		$_TREINAMENTO->APRENDE("Seu texto 4",$sentimento_2);
+		$_TREINAMENTO->APRENDE("Seu texto 5",$sentimento_2);
+		$_TREINAMENTO->FINISH();
 
 ?>
 ```
@@ -55,12 +65,12 @@ Como classificar um texto:
 ```php
 <?php
 
-    include "vendor\autoload.php";
-    use IsraelNogueira\NBClassifier\NBClassifier;
-        
-    $_teste = new NBClassifier();
-    $result1 = $_teste->CLASSIFICA('Seu texto 1');
-    $result2 = $_teste->CLASSIFICA('Seu texto 2');
-    $result3 = $_teste->CLASSIFICA('Seu texto 3');
+	include "vendor\autoload.php";
+	use IsraelNogueira\NBClassifier\NBClassifier;
+		
+	$_teste = new NBClassifier();
+	$result1 = $_teste->CLASSIFICA('Seu texto 1');
+	$result2 = $_teste->CLASSIFICA('Seu texto 2');
+	$result3 = $_teste->CLASSIFICA('Seu texto 3');
 
 ?>
