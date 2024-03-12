@@ -4,8 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "709debd86afb4584b06e7f8d7c325f5f",
+    "content-hash": "5d7e469934d825c1c1519be8f24048c5",
     "packages": [
+        {
+            "name": "israel-nogueira/dotenv",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/israel-nogueira/dotenv.git",
+                "reference": "943a59862b6e2756200aab8ad729e4b0da79016c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/israel-nogueira/dotenv/zipball/943a59862b6e2756200aab8ad729e4b0da79016c",
+                "reference": "943a59862b6e2756200aab8ad729e4b0da79016c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IsraelNogueira\\Dotenv\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Israel Nogueira",
+                    "email": "israel@feats.com.br"
+                }
+            ],
+            "description": "Gerencie de forma rápida seus arquivos .env",
+            "keywords": [
+                "dotenv",
+                "env",
+                "environment"
+            ],
+            "support": {
+                "issues": "https://github.com/israel-nogueira/dotenv/issues",
+                "source": "https://github.com/israel-nogueira/dotenv/tree/v1.0.0"
+            },
+            "time": "2023-12-13T23:21:09+00:00"
+        },
         {
             "name": "israel-nogueira/galaxy-db",
             "version": "v1.0.2",

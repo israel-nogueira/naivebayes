@@ -3,8 +3,8 @@
     "description": "Esta classe PHP serve como componente central em um sistema de processamento de linguagem natural, especialmente voltado para aplicações de aprendizado de máquina",
     "type": "library",
     "require": {
-        "israel-nogueira/galaxy-db": "*",
-        "israel-nogueira/dotenv": "*"
+        "israel-nogueira/galaxy-db": "^1.0",
+        "israel-nogueira/dotenv": "^1.0"
     },
     "license": "MIT",
     "autoload": {
