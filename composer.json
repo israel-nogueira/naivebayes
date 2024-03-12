@@ -9,7 +9,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "php -r \"copy('vendor/israel-nogueira/nbclassifier/nbclassifier.env', '.env');\""
+            "php -r copy('vendor/israel-nogueira/nbclassifier/nbclassifier.env', '.env');"
         ],
     },
     "autoload": {
