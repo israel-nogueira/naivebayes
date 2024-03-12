@@ -24,7 +24,6 @@ composer require israel-nogueira/nbclassifier
 ```
 
 ## Crie um arquivo "mysql.env":
-
 ```env
 	DB_HOST=127.0.0.1
 	DB_PORT=3306
@@ -37,11 +36,34 @@ composer require israel-nogueira/nbclassifier
 	DB_FKEY=
 ```
 
+## CONFIGURE SUA BASE DE DADOS:
+```SQL
+
+	CREATE DATABASE IF NOT EXISTS NAIVE_BAYES;
+
+	CREATE TABLE IF NOT EXISTS `MACHINE_LEARNING` (
+	`ID` int(11) NOT NULL AUTO_INCREMENT,
+	`CATEGORIA` varchar(255) NOT NULL,
+	`TREINOS` int(11) NOT NULL DEFAULT 0,
+	`PALAVRAS` text NOT NULL,
+	PRIMARY KEY (`ID`)
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=23;
+
+	CREATE TABLE IF NOT EXISTS `BLACK_LIST_WORDS` (
+	`ID` int(11) NOT NULL AUTO_INCREMENT,
+	`PALAVRA` varchar(255) NOT NULL,
+	PRIMARY KEY (`ID`)
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3;
+
+```
+
 
 Como treinar o seu modelo:
 
 ```php
 <?php
+	
+	// -----> index.php
 
 	include "vendor\autoload.php";
 	use IsraelNogueira\Dotenv\env;
