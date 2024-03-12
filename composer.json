@@ -7,9 +7,6 @@
         "israel-nogueira/galaxy-db": "*",
         "israel-nogueira/dotenv": "*"
     },
-    "scripts": {
-        "post-package-install": [ "php \"copy('vendor/israel-nogueira/nbclassifier/.env', 'nbclassifier.env');\"" ]
-    },
     "autoload": {
         "psr-4": {
             "IsraelNogueira\\Nbclassifier\\": "src/"
