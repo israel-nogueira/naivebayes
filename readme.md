@@ -1,6 +1,5 @@
-# Nome do Seu Projeto
 
-![Imagem Central](link_para_sua_imagem)
+# Processamento de linguagem natural
 
   Esta classe PHP serve como componente central em um sistema 
   de processamento de linguagem natural, especialmente voltado 
@@ -18,18 +17,50 @@
   tornando-se indispensável para análises e predições 
   na área de processamento de linguagem natural.
 
-## Instalação
-
-Instale com o composer:
-
+## Instale com o composer:
 ```
 composer require israel-nogueira/nbclassifier
 
 ```
 
-Aqui está um exemplo de como você pode usar este projeto:
+Como treinar o seu modelo:
 
 ```php
 <?php
-// Seu código PHP aqui
+
+    include "vendor\autoload.php";
+    use IsraelNogueira\NBClassifier\NBClassifier;
+        
+    $sentimento_1 = "amor";
+    $sentimento_2 = "raiva";
+
+    /*
+    |------------------------------------------------
+    |  TREINAMENTO
+    |------------------------------------------------
+    */
+        $_TREINAMENTO = new NBClassifier();
+        $_TREINAMENTO->APRENDE("Seu texto 1",$sentimento_1);
+        $_TREINAMENTO->APRENDE("Seu texto 2",$sentimento_1);
+        $_TREINAMENTO->APRENDE("Seu texto 3",$sentimento_1);
+        $_TREINAMENTO->APRENDE("Seu texto 4",$sentimento_2);
+        $_TREINAMENTO->APRENDE("Seu texto 5",$sentimento_2);
+        $_TREINAMENTO->FINISH();
+
+?>
+```
+
+Como classificar um texto:
+
+```php
+<?php
+
+    include "vendor\autoload.php";
+    use IsraelNogueira\NBClassifier\NBClassifier;
+        
+    $_teste = new NBClassifier();
+    $result1 = $_teste->CLASSIFICA('Seu texto 1');
+    $result2 = $_teste->CLASSIFICA('Seu texto 2');
+    $result3 = $_teste->CLASSIFICA('Seu texto 3');
+
 ?>
