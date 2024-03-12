@@ -24,7 +24,7 @@
  * @version    1.0.0
  */
 
-	namespace IsraelNogueira\NBClassifier\NBClassifier;
+	namespace IsraelNogueira\NBClassifier;
 	use IsraelNogueira\galaxyDB\galaxyDB;
 	class NBClassifier {
 
