@@ -38,9 +38,11 @@ DB_FKEY=
 
 ## Configure sua base de dados:
 ```SQL
-
 CREATE DATABASE IF NOT EXISTS NAIVE_BAYES;
+```
 
+## Agora crie as tabelas corretamente:
+```SQL
 CREATE TABLE IF NOT EXISTS `MACHINE_LEARNING` (
 `ID` int(11) NOT NULL AUTO_INCREMENT,
 `CATEGORIA` varchar(255) NOT NULL,
@@ -62,9 +64,6 @@ Crie um arquivo *index.php* e insira isso:
 
 ```php
 <?php
-	
-	// -----> index.php
-
 	include "vendor\autoload.php";
 	use IsraelNogueira\Dotenv\env;
 	use IsraelNogueira\NBClassifier\NBClassifier;
