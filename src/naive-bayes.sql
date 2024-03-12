@@ -1,0 +1,79 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Tempo de geração: 23-Mar-2021 às 04:07
+-- Versão do servidor: 10.4.14-MariaDB
+-- versão do PHP: 7.4.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Banco de dados: `test`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `MACHINE_LEARNING`
+--
+
+CREATE TABLE `MACHINE_LEARNING` (
+  `ID` int(11) NOT NULL,
+  `CATEGORIA` varchar(255) NOT NULL,
+  `TREINOS` int(11) NOT NULL DEFAULT 0,
+  `PALAVRAS` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Estrutura da tabela `BLACK_LIST_WORDS`
+--
+
+CREATE TABLE `BLACK_LIST_WORDS` (
+  `ID` int(11) NOT NULL,
+  `PALAVRA` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+--
+-- Índices para tabela `MACHINE_LEARNING`
+--
+ALTER TABLE `MACHINE_LEARNING`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Índices para tabela `BLACK_LIST_WORDS`
+--
+ALTER TABLE `BLACK_LIST_WORDS`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT de tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `MACHINE_LEARNING`
+--
+ALTER TABLE `MACHINE_LEARNING`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT de tabela `BLACK_LIST_WORDS`
+--
+ALTER TABLE `BLACK_LIST_WORDS`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -1,0 +1,60 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "709debd86afb4584b06e7f8d7c325f5f",
+    "packages": [
+        {
+            "name": "israel-nogueira/galaxy-db",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/israel-nogueira/galaxy-db.git",
+                "reference": "f582029a0cb82f51ec2fd7913bbb4f9b36928969"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/israel-nogueira/galaxy-db/zipball/f582029a0cb82f51ec2fd7913bbb4f9b36928969",
+                "reference": "f582029a0cb82f51ec2fd7913bbb4f9b36928969",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IsraelNogueira\\Models\\": "app/Models/",
+                    "IsraelNogueira\\galaxyDB\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Israel Nogueira",
+                    "email": "israel@feats.com.br"
+                }
+            ],
+            "description": "ORM simples para PHP e Base de Dados",
+            "support": {
+                "issues": "https://github.com/israel-nogueira/galaxy-db/issues",
+                "source": "https://github.com/israel-nogueira/galaxy-db/tree/v1.0.2"
+            },
+            "time": "2023-12-12T14:26:12+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}
