@@ -19,7 +19,7 @@
 
 ## Instale com o composer:
 ```
-composer require israel-nogueira/nbclassifier
+composer require israel-nogueira/naivebayes
 
 ```
 
@@ -66,7 +66,7 @@ Crie um arquivo *index.php* e insira isso:
 <?php
 	include "vendor\autoload.php";
 	use IsraelNogueira\Dotenv\env;
-	use IsraelNogueira\NBClassifier\NBClassifier;
+	use IsraelNogueira\naivebayes\naivebayes;
 			   
 	/*
 	|------------------------------------------------
@@ -85,7 +85,7 @@ Crie um arquivo *index.php* e insira isso:
 		$insatisfeito = "insatisfeito";
 		$satisfeito = "satisfeito";
 
-		$_TREINAMENTO = new NBClassifier();
+		$_TREINAMENTO = new naivebayes();
 				
 		$_TREINAMENTO->APRENDE("Estou extremamente frustrado com a qualidade deste produto; não faz nada do que promete!",$insatisfeito);
 		$_TREINAMENTO->APRENDE("Que desperdício de dinheiro! Este produto é uma completa decepção e não atende às minhas expectativas.",$insatisfeito);
@@ -120,9 +120,9 @@ Como classificar um texto:
 <?php
 
 	include "vendor\autoload.php";
-	use IsraelNogueira\NBClassifier\NBClassifier;
+	use IsraelNogueira\naivebayes\naivebayes;
 		
-	$_teste = new NBClassifier();
+	$_teste = new naivebayes();
 	$result1 = $_teste->CLASSIFICA('Estou tão irritado com esse produto que mal posso expressar minha frustração');
 	$result2 = $_teste->CLASSIFICA('Este produto superou todas as minhas expectativas; estou radiante com a minha compra');
 
