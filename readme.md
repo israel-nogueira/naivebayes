@@ -23,6 +23,21 @@ composer require israel-nogueira/nbclassifier
 
 ```
 
+## Crie um arquivo "mysql.env":
+
+```env
+	DB_HOST=127.0.0.1
+	DB_PORT=3306
+	DB_DATABASE=NAIVE_BAYES
+	DB_USERNAME=root
+	DB_PASSWORD=
+	DB_TYPE=mysql
+	DB_CHAR=
+	DB_FLOW=
+	DB_FKEY=
+```
+
+
 Como treinar o seu modelo:
 
 ```php
@@ -38,7 +53,7 @@ Como treinar o seu modelo:
 	|------------------------------------------------
 	*/
 
-		env::install(__DIR__.'/.env');
+		env::install(__DIR__.'/mysql.env');
 
 	/*
 	|------------------------------------------------
