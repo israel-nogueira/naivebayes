@@ -8,7 +8,7 @@
         "israel-nogueira/dotenv": "*"
     },
     "scripts": {
-        "post-autoload-dump": [
+        "post-create-project-cmd": [
             "php -r \"copy('vendor/israel-nogueira/nbclassifier/.env', 'nbclassifier.env');\""
         ]
     },
