@@ -82,15 +82,33 @@ Crie um arquivo *index.php* e insira isso:
 	|------------------------------------------------
 	*/
 
-		$sentimento_1 = "amor";
-		$sentimento_2 = "raiva";
+		$insatisfeito = "insatisfeito";
+		$satisfeito = "satisfeito";
 
 		$_TREINAMENTO = new NBClassifier();
-		$_TREINAMENTO->APRENDE("Seu texto 1",$sentimento_1);
-		$_TREINAMENTO->APRENDE("Seu texto 2",$sentimento_1);
-		$_TREINAMENTO->APRENDE("Seu texto 3",$sentimento_1);
-		$_TREINAMENTO->APRENDE("Seu texto 4",$sentimento_2);
-		$_TREINAMENTO->APRENDE("Seu texto 5",$sentimento_2);
+				
+		$_TREINAMENTO->APRENDE("Estou extremamente frustrado com a qualidade deste produto; não faz nada do que promete!",$insatisfeito);
+		$_TREINAMENTO->APRENDE("Que desperdício de dinheiro! Este produto é uma completa decepção e não atende às minhas expectativas.",$insatisfeito);
+		$_TREINAMENTO->APRENDE("Estou furioso com a falta de durabilidade deste produto. Que desperdício total de recursos.",$insatisfeito);
+		$_TREINAMENTO->APRENDE("Este produto é um verdadeiro pesadelo! Não funciona corretamente e me causou muitos problemas.",$insatisfeito);
+		$_TREINAMENTO->APRENDE("Estou indignado com o péssimo serviço ao cliente associado a este produto. Nunca mais comprarei nada dessa empresa.",$insatisfeito);
+		$_TREINAMENTO->APRENDE("O produto não funcionou conforme o esperado.",$insatisfeito);
+		$_TREINAMENTO->APRENDE("O prazo de entrega do produto foi muito longo.",$insatisfeito);
+		$_TREINAMENTO->APRENDE("O produto veio com peças faltando.",$insatisfeito);
+		$_TREINAMENTO->APRENDE("Não recomendo este produto, pois não cumpre o que promete.",$insatisfeito);
+		$_TREINAMENTO->APRENDE("O produto chegou danificado e não consigo entrar em contato com a empresa para resolver o problema.",$insatisfeito);
+
+		$_TREINAMENTO->APRENDE("Este produto superou todas as minhas expectativas! É incrível!",$satisfeito);
+		$_TREINAMENTO->APRENDE("Estou impressionado com a qualidade e o desempenho deste produto. Recomendo!",$satisfeito);
+		$_TREINAMENTO->APRENDE("Não consigo mais viver sem este produto. Ele facilitou muito a minha vida!",$satisfeito);
+		$_TREINAMENTO->APRENDE("Estou completamente apaixonado por este produto. É simplesmente perfeito!",$satisfeito);
+		$_TREINAMENTO->APRENDE("Que inovação fantástica! Este produto é uma verdadeira revolução!",$satisfeito);
+		$_TREINAMENTO->APRENDE("Estou encantado com a eficácia deste produto. Nunca vi nada igual!",$satisfeito);
+		$_TREINAMENTO->APRENDE("Este produto realmente faz a diferença. É uma compra que vale cada centavo!",$satisfeito);
+		$_TREINAMENTO->APRENDE("Recebi muitos elogios desde que comecei a usar este produto. É fenomenal!",$satisfeito);
+		$_TREINAMENTO->APRENDE("Parabéns à equipe por criar um produto tão excelente! Estou muito satisfeito!",$satisfeito);
+		$_TREINAMENTO->APRENDE("Este produto é tudo o que eu precisava e mais um pouco. Simplesmente maravilhoso!",$satisfeito);
+
 		$_TREINAMENTO->FINISH();
 
 ?>
@@ -105,8 +123,7 @@ Como classificar um texto:
 	use IsraelNogueira\NBClassifier\NBClassifier;
 		
 	$_teste = new NBClassifier();
-	$result1 = $_teste->CLASSIFICA('Seu texto 1');
-	$result2 = $_teste->CLASSIFICA('Seu texto 2');
-	$result3 = $_teste->CLASSIFICA('Seu texto 3');
+	$result1 = $_teste->CLASSIFICA('Estou tão irritado com esse produto que mal posso expressar minha frustração');
+	$result2 = $_teste->CLASSIFICA('Este produto superou todas as minhas expectativas; estou radiante com a minha compra');
 
 ?>
