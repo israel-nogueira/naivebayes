@@ -73,7 +73,7 @@ Na raiz do projeto, crie um arquivo */index.php*:
 	|------------------------------------------------
 	*/
 
-		$_NERVOSO   = "NERVOSO";
+		$_NERVOSO   = "INSATISFEITO";
 		$_FELIZ     = "FELIZ";
 
 		$_TREINAMENTO = new naivebayes();
