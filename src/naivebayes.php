@@ -26,6 +26,7 @@
 
 	namespace IsraelNogueira\naivebayes;
 	use IsraelNogueira\galaxyDB\galaxyDB;
+	use Exception;
 	class naivebayes {
 
 			/*
@@ -46,19 +47,26 @@
 			|-------------------------------------------------
 			*/
 				public function __construct() {
-					$STOP_WORDS = new galaxyDB();
-					$STOP_WORDS->connect();
-					$STOP_WORDS->set_table('BLACK_LIST_WORDS');
-					$STOP_WORDS->set_colum('PALAVRA');
-					$STOP_WORDS->select('BL');
-					
+
+					$_STOP_WORDS = new galaxyDB();
+					$_STOP_WORDS->connect();
+					$_STOP_WORDS->table("BLACK_LIST_WORDS");
+					$_STOP_WORDS->prepare_select('PALAVRA');
+					$_STOP_WORDS->transaction(function($error) {die(print_r($error));});
+					$_STOP_WORDS->execQuery(function($success) {/*die(print_r($success));*/});
+					$STOP_WORDS = $_STOP_WORDS->fetch_array('PALAVRA');
+
 					$_CATEGORIAS = new galaxyDB();
 					$_CATEGORIAS->connect();
-					$_CATEGORIAS->set_table('MACHINE_LEARNING');
-					$_CATEGORIAS->select('ML');
+					$_CATEGORIAS->table("MACHINE_LEARNING");
+					$_CATEGORIAS->prepare_select('CAT');
+					$_CATEGORIAS->transaction(function($error) {die(print_r($error));});
+					$_CATEGORIAS->execQuery(function($success) {/*die(print_r($success));*/});
+					$CATEGORIAS = $_CATEGORIAS->fetch_array('CAT');
 
-					$this->STOP_WORDS 			= ($STOP_WORDS->_num_rows['BL']==0)?[]:array_values($STOP_WORDS->fetch_array('BL'));
-					$this->_ARRAY_CAT			= ($_CATEGORIAS->_num_rows['ML']==0)?[]:array_values($_CATEGORIAS->fetch_array('ML'));
+
+					$this->STOP_WORDS 			= ($_STOP_WORDS->_num_rows==0)?[]:array_values($STOP_WORDS);
+					$this->_ARRAY_CAT			= ($_CATEGORIAS->_num_rows==0)?[]:array_values($CATEGORIAS);
 					$this->_STOPWORDS			= array();
 					$this->_CATEGORIAS_MYSQL	= array();
 					$this->_TOTAL_TREINO		= array();
@@ -71,6 +79,8 @@
 						$this->_TOTAL_TREINO[$value['CATEGORIA']]		= $value['TREINOS'];
 						$this->_CATEGORIAS_MYSQL[$value['CATEGORIA']]	= ($value['PALAVRAS']=="") ? array() : json_decode(stripcslashes($value['PALAVRAS']),1);
 					}
+
+					
 				}
 			/*
 			|-------------------------------------------------
@@ -146,30 +156,26 @@
 			|
 			|-------------------------------------------------
 			*/
+
 			public function APRENDE($_FRASE, $CATEGORIA) {
 
-				if(!array_key_exists($CATEGORIA, $this->_CATEGORIAS_MYSQL)){
-					$this->_CATEGORIAS_MYSQL[$CATEGORIA]	= array();
-					$this->_TOTAL_TREINO[$CATEGORIA]		= 0;
+				if (!isset($this->_CATEGORIAS_MYSQL[$CATEGORIA])) {
+					$this->_CATEGORIAS_MYSQL[$CATEGORIA] = [];
+					$this->_TOTAL_TREINO[$CATEGORIA] = 0;
 				}
+				
+				$this->_TOTAL_TREINO[$CATEGORIA]++;
+				$_ARRAY_PALAVRAS = array_filter($this->tokenize($_FRASE));
 
-				$this->_TOTAL_TREINO[$CATEGORIA]		= $this->_TOTAL_TREINO[$CATEGORIA]+1;
-				$_CATEGORIA_ARRAY_WORD					= $this->_CATEGORIAS_MYSQL[$CATEGORIA];
-				$_ARRAY_PALAVRAS						= array_filter($this->tokenize($_FRASE));
-				 
-				if(!is_null($_CATEGORIA_ARRAY_WORD)){
-					foreach ($_ARRAY_PALAVRAS as $_PALAVRA) {
-						if(
-							count($_CATEGORIA_ARRAY_WORD)==0 || !array_key_exists($_PALAVRA, $_CATEGORIA_ARRAY_WORD)==true
-						){
-							$_CATEGORIA_ARRAY_WORD[$_PALAVRA]=1;
-						}else{
-							$_CATEGORIA_ARRAY_WORD[$_PALAVRA] = $_CATEGORIA_ARRAY_WORD[$_PALAVRA]+1;
-						}
-						$this->_CATEGORIAS_MYSQL[$CATEGORIA]	= $_CATEGORIA_ARRAY_WORD;
+				foreach ($_ARRAY_PALAVRAS as $_PALAVRA) {
+					if (!isset($this->_CATEGORIAS_MYSQL[$CATEGORIA][$_PALAVRA])) {
+						$this->_CATEGORIAS_MYSQL[$CATEGORIA][$_PALAVRA] = 1;
+					} else {
+						$this->_CATEGORIAS_MYSQL[$CATEGORIA][$_PALAVRA]++;
 					}
 				}
-			}			
+			}
+
 
 			/*
 			|-------------------------------------------------
@@ -191,43 +197,42 @@
 
 			public function FINISH() {
 
-				$_allCats = new galaxyDB();
-				$_allCats->connect();
-				$_allCats->set_table('MACHINE_LEARNING');
-				$_allCats->set_colum('CATEGORIA');
-				$_allCats->select('CAT');
-				$ARRAY_MACHINE_LEARNING			= ($_allCats->_num_rows['CAT']==0)?[]:array_values($_allCats->fetch_array('CAT'));
-				$_VERIFICA_CAT = array();
-				foreach ($ARRAY_MACHINE_LEARNING as $_CATEGORIA){$_VERIFICA_CAT[] = $_CATEGORIA['CATEGORIA']; }
-				$INSERT = new galaxyDB();
-				$INSERT->connect();
-
-				
-				$UPDATE = new galaxyDB();
-				$UPDATE->connect();
-
-				foreach ($this->_CATEGORIAS_MYSQL as $_CATEGORIA=>$_PALAVRA){
-					$_JSON = addslashes(json_encode($_PALAVRA,JSON_UNESCAPED_UNICODE|JSON_BIGINT_AS_STRING));
-					if(isset($_PALAVRA) && count($_PALAVRA)>0 && in_array($_CATEGORIA,$_VERIFICA_CAT)){		 
-							$UPDATE->set_table("MACHINE_LEARNING");
-							$UPDATE->set_update('TREINOS',$this->_TOTAL_TREINO[$_CATEGORIA]);
-							$UPDATE->set_update('PALAVRAS',$_JSON);
-							$UPDATE->set_where('CATEGORIA="'.$_CATEGORIA.'"');
-							$UPDATE->prepare_update();
-					}else{
-							$INSERT->set_table("MACHINE_LEARNING");
-							$INSERT->set_insert('TREINOS', $this->_TOTAL_TREINO[$_CATEGORIA]);
-							$INSERT->set_insert('PALAVRAS',$_JSON);
-							$INSERT->set_insert('CATEGORIA',$_CATEGORIA);
-							$INSERT->prepare_insert();
-					 }
+				$_CATEGORIAS = new galaxyDB();
+				$_CATEGORIAS->connect();
+				$_CATEGORIAS->table("MACHINE_LEARNING");
+				$_CATEGORIAS->colum("CATEGORIA");
+				$_CATEGORIAS->prepare_select('CAT');
+				$_CATEGORIAS->transaction(function($error) {die(print_r($error));});
+				$_CATEGORIAS->execQuery(function($success) {});
+				$CATEGORIAS 			= $_CATEGORIAS->fetch_array('CAT');
+				$CAT_CADASTRADAS = [];
+				foreach ($CATEGORIAS as $_CATEGORIA) {
+					$CAT_CADASTRADAS[] =$_CATEGORIA['CATEGORIA'];
 				}
-				$INSERT->transaction(function ($ERROR) {print_r($ERROR);});
-				$UPDATE->transaction(function ($ERROR) {print_r($ERROR);});
-				$INSERT->execQuery();
-				$UPDATE->execQuery();
-			}
 
+				$PROCESS = new galaxyDB();
+				$PROCESS->connect();
+				$key = 0;
+				foreach ($this->_CATEGORIAS_MYSQL as $_CATEGORIA => $_PALAVRA) {
+					 $_JSON = addslashes(json_encode($_PALAVRA, JSON_UNESCAPED_UNICODE | JSON_BIGINT_AS_STRING));
+					 if (isset($_PALAVRA) && count($_PALAVRA) > 0 && in_array($_CATEGORIA,$CAT_CADASTRADAS)) {
+						$PROCESS->table("MACHINE_LEARNING");
+						$PROCESS->set_update('TREINOS', $this->_TOTAL_TREINO[$_CATEGORIA]);
+						$PROCESS->set_update('PALAVRAS', $_JSON);
+						$PROCESS->where('CATEGORIA="' . $_CATEGORIA . '"');
+						$PROCESS->prepare_update('key_'.$key);
+					} else {
+						$PROCESS->table("MACHINE_LEARNING");
+						$PROCESS->set_insert('TREINOS', $this->_TOTAL_TREINO[$_CATEGORIA]);
+						$PROCESS->set_insert('PALAVRAS', $_JSON);
+						$PROCESS->set_insert('CATEGORIA', $_CATEGORIA);
+						$PROCESS->prepare_insert('key_'.$key);
+					}
+					$key++;
+				}
+				$PROCESS->transaction(function ($ERROR) {throw new Exception($ERROR, 1);});
+				$PROCESS->execQuery();
+			}
 			/*
 			|-------------------------------------------------
 			| TOKENIZADOR DE TEXTOS
