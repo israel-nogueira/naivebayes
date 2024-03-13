@@ -60,13 +60,13 @@ PRIMARY KEY (`ID`)
 ```
 
 ## Treinando seu modelo:
-Crie um arquivo *index.php* e insira isso:
+Na raiz do projeto, crie um arquivo */index.php*:
 
 ```php
 <?php
 	include "vendor\autoload.php";
 	use IsraelNogueira\naivebayes\naivebayes;
-	
+
 	/*
 	|------------------------------------------------
 	|  TREINAMENTO
