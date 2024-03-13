@@ -114,29 +114,38 @@
 			|-------------------------------------------------
 			*/
 				private function decide($ARRAY_PALAVRAS) {
-					$_TOTAL_FREQUENCIA 	= 0;
-					$_TOTAL_TREINO 		= 0;
-					foreach ($this->_TOTAL_TREINO as  $value) {
-						$_TOTAL_TREINO = $_TOTAL_TREINO + $value;
+					$_TOTAL_TREINO = 0;
+					foreach ($this->_TOTAL_TREINO as $value) {
+						$_TOTAL_TREINO += $value;
 					}
-					$_CLASSIFY =array();
+					$_CLASSIFY = array();
 					foreach ($this->_CATEGORIAS_MYSQL as $_CHAVECAT => $_ARRAY_PALAVRAS) {
-						$_TOTAL_TREINO_COM_A_CATEGORIA			= $this->_TOTAL_TREINO[$_CHAVECAT];
-						$_PROBABILIDADE 						= ($_TOTAL_TREINO==0)	?	0	:	log($_TOTAL_TREINO_COM_A_CATEGORIA / $_TOTAL_TREINO);
-							foreach ($ARRAY_PALAVRAS as $_PALAVRA) {
-								if(
-									count($this->_CATEGORIAS_MYSQL[$_CHAVECAT])>0 && 
-									array_key_exists($_PALAVRA, $this->_CATEGORIAS_MYSQL[$_CHAVECAT])
-								){
-									$_PROBABILIDADE += log(($_TOTAL_TREINO) * ($_TOTAL_TREINO_COM_A_CATEGORIA / count($this->_CATEGORIAS_MYSQL[$_CHAVECAT])));
-								}
+						$_TOTAL_TREINO_COM_A_CATEGORIA = $this->_TOTAL_TREINO[$_CHAVECAT];
+						$_PROBABILIDADE = ($_TOTAL_TREINO == 0) ? 0 : log($_TOTAL_TREINO_COM_A_CATEGORIA / $_TOTAL_TREINO);
+						foreach ($ARRAY_PALAVRAS as $_PALAVRA) {
+							if (
+								count($this->_CATEGORIAS_MYSQL[$_CHAVECAT]) > 0 &&
+								array_key_exists($_PALAVRA, $this->_CATEGORIAS_MYSQL[$_CHAVECAT])
+							) {
+								$_PROBABILIDADE += log(($_TOTAL_TREINO) * ($_TOTAL_TREINO_COM_A_CATEGORIA / count($this->_CATEGORIAS_MYSQL[$_CHAVECAT])));
 							}
-						$_PROBABILIDADE= ( $_PROBABILIDADE < 0 ) ? ($_PROBABILIDADE * -1) : $_PROBABILIDADE;
-						$_CLASSIFY[]=array("PROBABILIDADE"=>number_format($_PROBABILIDADE, 2, '.', ' '),'CATEGORIA'=>$_CHAVECAT);
+						}
+						$_PROBABILIDADE = ($_PROBABILIDADE < 0) ? ($_PROBABILIDADE * -1) : $_PROBABILIDADE;
+						$_CLASSIFY[] = array('CATEGORIA' => $_CHAVECAT, "PROBABILIDADE" => number_format($_PROBABILIDADE, 2, '.', ' '));
 					}
-					usort($_CLASSIFY, function($a, $b) {return floatval($a['PROBABILIDADE']) < floatval($b['PROBABILIDADE']);});
+					usort($_CLASSIFY, function ($a, $b) {
+						if (floatval($a['PROBABILIDADE']) < floatval($b['PROBABILIDADE'])) {
+							return -1;
+						} elseif (floatval($a['PROBABILIDADE']) > floatval($b['PROBABILIDADE'])) {
+							return 1;
+						} else {
+							return 0;
+						}
+					});
 					return $_CLASSIFY;
 				}
+
+
 
 
 			/*
