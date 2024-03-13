@@ -1,5 +1,5 @@
 
-# Processamento de linguagem natural
+# Categorização de texto com Naive Bayes 
 
   Esta classe PHP serve como componente central em um sistema 
   de processamento de linguagem natural, especialmente voltado 
