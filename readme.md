@@ -108,3 +108,24 @@ Como classificar um texto:
 
 
 ?>
+```
+Irá retornar algo parecido com isso:
+
+```
+Array
+(
+    [0] => Array
+        (
+            [CATEGORIA] => INSATISFEITO
+            [PCT] => 9.90
+        )
+
+    [1] => Array
+        (
+            [CATEGORIA] => FELIZ
+            [PCT] => 16.69
+        )
+
+)
+
+```
