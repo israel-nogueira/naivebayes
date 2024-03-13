@@ -110,8 +110,10 @@ Como classificar um texto:
 	include "vendor\autoload.php";
 	use IsraelNogueira\naivebayes\naivebayes;
 		
-	$_teste = new naivebayes();
-	$result1 = $_teste->CLASSIFICA('Estou tão irritado com esse produto que mal posso expressar minha frustração');
-	$result2 = $_teste->CLASSIFICA('Este produto superou todas as minhas expectativas; estou radiante com a minha compra');
+	$_CLASSIFICA = new naivebayes();
+	$RESULT = $_CLASSIFICA->CLASSIFICA('Vocês estão de parabéns! Esse produto é excelente! Estou muito satisfeito');
+	
+	print_r($RESULT);
+
 
 ?>
