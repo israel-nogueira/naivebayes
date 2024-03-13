@@ -65,17 +65,8 @@ Crie um arquivo *index.php* e insira isso:
 ```php
 <?php
 	include "vendor\autoload.php";
-	use IsraelNogueira\Dotenv\env;
 	use IsraelNogueira\naivebayes\naivebayes;
-			   
-	/*
-	|------------------------------------------------
-	|  LÊ AS VARIÁVEIS DE CONEXÃO A BASE
-	|------------------------------------------------
-	*/
-
-		env::install(__DIR__.'/mysql.env');
-
+	
 	/*
 	|------------------------------------------------
 	|  TREINAMENTO
