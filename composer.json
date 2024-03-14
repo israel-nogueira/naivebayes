@@ -4,7 +4,9 @@
     "type": "library",
     "require": {
         "israel-nogueira/galaxy-db": "^1.0",
-        "israel-nogueira/dotenv": "^1.0"
+        "israel-nogueira/dotenv": "^1.0",
+        "wamania/php-stemmer": "^3.0"
+
     },
     "license": "MIT",
     "autoload": {

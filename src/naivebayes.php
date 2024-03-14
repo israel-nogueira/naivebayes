@@ -26,6 +26,7 @@
 
 	namespace IsraelNogueira\naivebayes;
 	use IsraelNogueira\galaxyDB\galaxyDB;
+	use Wamania\Snowball\StemmerFactory;
 	use Exception;
 	class naivebayes {
 
@@ -65,16 +66,16 @@
 					$CATEGORIAS = $_CATEGORIAS->fetch_array('CAT');
 
 
+					$this->_STOPWORDS			= array("o", "a", "os", "as", "um", "uma", "uns", "umas", "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", "por", "para", "com", "como", "em", "entre", "sobre", "sob", "ante", "após", "até", "depois", "durante", "desde", "perante", "sem", "fora", "dentro", "além", "atrás", "adiante", "ao", "aos", "à", "às", "àquele", "àquela", "àqueles", "àquelas", "aquele", "aquela", "aqueles", "aquelas", "este", "esta", "estes", "estas", "isto", "isso", "aquele", "aquela", "aqueles", "aquelas", "isso", "isto", "assim", "ali", "aqui", "lá", "aí", "cá", "lá", "ali", "aqui", "lá", "cá", "aí", "acolá", "adentro", "afinal", "afora", "algures", "ambos", "anteontem", "antigamente", "aparentemente", "apenas", "assaz", "assim", "atualmente", "bem", "breve", "cá", "cedo", "certamente", "certo", "coisa", "comigo", "comum", "conforme", "conforme", "consigo", "constante", "corrente", "daí", "dele", "depois", "desse", "deste", "detalhe", "dois", "domingo", "embora", "enquanto", "entanto", "então", "entretanto", "enquanto", "eram", "essa", "esse", "esta", "este", "essas", "esses", "estas", "estes", "estou", "exatamente", "felizmente", "fim", "finalmente", "frente", "gente", "gostei", "gosto", "hoje", "hora", "horas", "lhe", "logo", "longe", "lugar", "mais", "mal", "máximo", "médio", "meio", "menos", "meses", "mesmo", "mês", "muita", "muito", "nada", "nenhum", "nenhuma", "nós", "nossa", "nosso", "novamente", "novo", "ontem", "outra", "outras", "outro", "outros", "pela", "pelas", "pelo", "pelos", "penúltimo", "perto", "pouca", "pouco", "próprio", "quase", "quem", "quinta", "segunda", "seja", "sejam", "semelhante", "semelhantes", "senão", "ser", "será", "serão", "seria", "seriam", "sexta", "sobre", "sobretudo", "sábado", "talvez", "tanto", "terça", "toda", "todas", "todo", "todos", "tomara", "tão", "têm", "um", "uma", "umas", "uns", "vem", "veja", "vez", "vindo", "vinte", "você", "vocês", "vossa", "vosso");
 					$this->STOP_WORDS 			= ($_STOP_WORDS->_num_rows==0)?[]:array_values($STOP_WORDS);
 					$this->_ARRAY_CAT			= ($_CATEGORIAS->_num_rows==0)?[]:array_values($CATEGORIAS);
-					$this->_STOPWORDS			= array();
 					$this->_CATEGORIAS_MYSQL	= array();
 					$this->_TOTAL_TREINO		= array();
-
+					
 					foreach ($this->STOP_WORDS as  $value) {
 						$this->_STOPWORDS[]=$value; 
 					}
-
+					
 					foreach ($this->_ARRAY_CAT as  $value) {
 						$this->_TOTAL_TREINO[$value['CATEGORIA']]		= $value['TREINOS'];
 						$this->_CATEGORIAS_MYSQL[$value['CATEGORIA']]	= ($value['PALAVRAS']=="") ? array() : json_decode(stripcslashes($value['PALAVRAS']),1);
@@ -242,6 +243,24 @@
 				$PROCESS->transaction(function ($ERROR) {throw new Exception($ERROR, 1);});
 				$PROCESS->execQuery();
 			}
+
+			/*
+			|-------------------------------------------------
+			| LEMATIZADOR DE TEXTOS
+			|-------------------------------------------------
+			| 
+			| Normalização de texto são técnicas de pré-processamento de texto que ajudam 
+			| a reduzir as palavras a uma forma mais básica ou normalizada, 
+			| facilitando a análise e a comparação de textos
+			|
+			|-------------------------------------------------
+			*/
+
+				public function lematize($text=""){
+					$stemmer = StemmerFactory::create('pt');
+					return $stemmer->stem($text);
+				}
+
 			/*
 			|-------------------------------------------------
 			| TOKENIZADOR DE TEXTOS
@@ -259,15 +278,16 @@
 			*/
 
 
-			public function tokenize( $string, $stopwords=false , $matriz=2){
+			public function tokenize( $string, $stopwords=[] , $matriz=2){
 				if(	$string !== mb_convert_encoding(mb_convert_encoding($string, 'UTF-32', 'UTF-8'), 'UTF-8', 'UTF-32'))
 				$string			= mb_convert_encoding($string, 'UTF-8', mb_detect_encoding($string));
 				$string			= htmlentities($string, ENT_NOQUOTES, 'UTF-8');
 				$string			= preg_replace('`&([a-z]{1,2})(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig);`i', '\1', $string);
 				$string			= html_entity_decode($string, ENT_NOQUOTES, 'UTF-8');
 				$string			= preg_replace(array('`[^a-z0-9]`i','`[-]+`'), ' ', $string);
-				$string			= preg_replace('/( ){2,}/', '$1', $string);
+				$string			= preg_replace('/( ){2,}/', '$1', $string);	
 				$string			= strtolower(trim($string));
+				$string			= str_replace($stopwords,'',$string);
 				$unigrams		= explode(' ',$string);
 				$num_unigrams 	= count( $unigrams );
 				$ngrams			= array();
